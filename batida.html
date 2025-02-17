@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registrar Batida de Ponto</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fafafa;
+      padding: 20px;
+      text-align: center;
+    }
+    h2 {
+      color: #333;
+    }
+    #videoPreview {
+      width: 100%;
+      max-width: 320px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 15px;
+    }
+    #btnCapturar {
+      padding: 10px 15px;
+      font-size: 16px;
+      background-color: #5bc0de;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+    }
+    #btnCapturar:hover {
+      background-color: #31b0d5;
+    }
+    #status {
+      margin-top: 15px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h2>Registrar Batida de Ponto</h2>
+  <p id="tipoPonto"></p>
+  
+  <!-- Vídeo para pré-visualização da câmera -->
+  <video id="videoPreview" autoplay></video>
+  <br>
+  <!-- Botão para capturar a imagem -->
+  <button id="btnCapturar">Capturar Foto e Registrar Ponto</button>
+  
+  <p id="status"></p>
+  
+  <script>
+    // Função para extrair o parâmetro "tipo" da URL
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    const tipoBatida = getQueryParam('tipo') || 'entrada';
+    document.getElementById('tipoPonto').innerText = "Tipo de Batida: " + tipoBatida;
+
+    // Acessa a câmera usando getUserMedia
+    const video = document.getElementById('videoPreview');
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function(stream) {
+          video.srcObject = stream;
+          video.play();
+        })
+        .catch(function(err) {
+          console.error("Erro ao acessar a câmera:", err);
+          document.getElementById('status').innerText = "Erro ao acessar a câmera.";
+        });
+    } else {
+      document.getElementById('status').innerText = "getUserMedia não é suportado neste dispositivo.";
+    }
+
+    // Ao clicar no botão, captura a foto, a localização e registra a batida
+    document.getElementById('btnCapturar').addEventListener('click', function() {
+      // Cria um canvas para capturar a imagem do vídeo
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext('2d');
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      
+      // Converte a imagem para base64
+      const fotoData = canvas.toDataURL('image/png');
+      
+      // Obtém a localização via API de Geolocalização
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          
+          // Exibe status e dados coletados
+          document.getElementById('status').innerText = "Foto capturada. Latitude: " + latitude + ", Longitude: " + longitude;
+          
+          // Aqui você faria uma chamada AJAX para enviar os dados (foto, localização, tipoBatida e horário) para o backend
+          console.log({
+            tipo: tipoBatida,
+            foto: fotoData,
+            latitude: latitude,
+            longitude: longitude,
+            check_time: new Date().toISOString()
+          });
+          
+          // Redireciona de volta ao dashboard (ou exibe mensagem de sucesso)
+          setTimeout(() => {
+            window.location.href = "dashboard.html";
+          }, 2000);
+        }, function(error) {
+          console.error("Erro ao obter a localização:", error);
+          document.getElementById('status').innerText = "Erro ao obter a localização.";
+        });
+      } else {
+        document.getElementById('status').innerText = "Geolocalização não suportada.";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard do Gerente</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eef;
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .table-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .btn-action {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .btn-approve {
+      background-color: #5cb85c;
+      color: #fff;
+    }
+    .btn-reject {
+      background-color: #d9534f;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Dashboard do Gerente</h1>
+  </header>
+  <div class="table-container">
+    <h3>Batidas Pendentes de Aprovação</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Funcionário</th>
+          <th>Tipo</th>
+          <th>Horário</th>
+          <th>Manual</th>
+          <th>Motivo</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="batidasTable">
+        <!-- Exemplo de linha, em produção os dados virão via API -->
+        <tr>
+          <td>101</td>
+          <td>João Silva</td>
+          <td>Entrada</td>
+          <td>08:05</td>
+          <td>Sim</td>
+          <td>Esqueceu de bater no horário</td>
+          <td>
+            <button class="btn-action btn-approve" onclick="aprovar(101)">Aprovar</button>
+            <button class="btn-action btn-reject" onclick="reprovar(101)">Reprovar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Funções para simular aprovação e reprovação
+    function aprovar(id) {
+      // Aqui você faria uma chamada AJAX para atualizar o status no banco de dados
+      console.log("Batida " + id + " aprovada.");
+      alert("Batida " + id + " aprovada.");
+      // Atualize a tabela conforme necessário
+    }
+
+    function reprovar(id) {
+      // Aqui você faria uma chamada AJAX para atualizar o status no banco de dados
+      console.log("Batida " + id + " reprovada.");
+      alert("Batida " + id + " reprovada.");
+      // Atualize a tabela conforme necessário
+    }
+  </script>
+</body>
+</html>

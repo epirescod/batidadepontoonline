@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard - Funcionário</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header>
+    <h1>Bem-vindo, [Nome do Funcionário]</h1>
+  </header>
+  
+  <div class="ponto-container">
+    <!-- Botões para registrar as batidas -->
+    <button class="btn-ponto" onclick="registrarPonto('entrada')">Bater Entrada</button>
+    <button class="btn-ponto" onclick="registrarPonto('saida_almoço')">Saída para Almoço</button>
+    <button class="btn-ponto" onclick="registrarPonto('retorno_almoço')">Retorno do Almoço</button>
+    <button class="btn-ponto" onclick="registrarPonto('saida')">Bater Saída</button>
+
+    <!-- Seção para exibir histórico das batidas -->
+    <div class="historico">
+      <h3>Histórico de Batidas</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Horário</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="historicoTable">
+          <!-- Linhas serão inseridas via JavaScript após consulta à API -->
+          <tr>
+            <td>Entrada</td>
+            <td>08:00</td>
+            <td>Aprovada</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Função fictícia para registrar batida. Em um sistema real, esta função chamaria a API.
+    function registrarPonto(tipo) {
+      // Redireciona para a tela de registro de ponto passando o tipo via query string
+      window.location.href = `registrarPonto.html?tipo=${tipo}`;
+    }
+  </script>
+</body>
+</html>

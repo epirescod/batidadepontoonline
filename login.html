@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sistema de Ponto - Login</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label for="identifier">Registro ou Email:</label>
+      <input type="text" id="identifier" name="identifier" placeholder="Digite seu ID ou Email" required>
+      
+      <label for="password">Senha:</label>
+      <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+      
+      <button type="submit">Entrar</button>
+    </form>
+  </div>
+  
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // Impede o comportamento padrão do formulário
+
+      // Coleta os valores dos inputs
+      const identifier = document.getElementById('identifier').value;
+      const password = document.getElementById('password').value;
+
+      // Faz a requisição para o endpoint PHP usando fetch
+      fetch('http://localhost/batidadepontoonline/api/login.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ identifier, password })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          // Armazena os dados do usuário (exemplo: sessionStorage)
+          sessionStorage.setItem('user', JSON.stringify(data.user));
+          // Redireciona para o dashboard
+          window.location.href = "funcionario.html";
+        } else {
+          alert(data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert("Ocorreu um erro ao fazer login.");
+      });
+    });
+  </script>
+</body>
+</html>

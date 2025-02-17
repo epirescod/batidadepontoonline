@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Ponto</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2>Registrar Batida de Ponto</h2>
+    <form id="pontoForm">
+        <label for="punch_type">Tipo de Ponto:</label>
+        <select id="punch_type">
+            <option value="entrada">Entrada</option>
+            <option value="saida_almoco">Saída para Almoço</option>
+            <option value="retorno_almoco">Retorno do Almoço</option>
+            <option value="saida">Saída</option>
+        </select>
+        <button type="submit">Registrar Ponto</button>
+    </form>
+    <script src="js/ponto.js"></script>
+</body>
+</html>
